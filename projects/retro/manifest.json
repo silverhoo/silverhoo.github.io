@@ -1,0 +1,131 @@
+{
+  "slug": "retro",
+  "updated": "2026-09-12",
+  "items": [
+    {
+      "name": "AIXD회고",
+      "source_name": "AIXD회고.pdf",
+      "base": "aixdhoego",
+      "ext": "pdf",
+      "kind": "pdf",
+      "size": 6017592,
+      "sha256": "3b1f13b4f37ba1f6f8997d8eaf38f31e3aab68f9f66314c57b30f5a4a6858a8d",
+      "pair_sha256": null,
+      "original": "files/aixdhoego.pdf",
+      "pdf": "files/aixdhoego.pdf",
+      "web": "web/aixdhoego.pdf",
+      "web_size": 2271749,
+      "pages": 12,
+      "thumbs": [
+        "thumbs/aixdhoego-1.webp",
+        "thumbs/aixdhoego-2.webp",
+        "thumbs/aixdhoego-3.webp",
+        "thumbs/aixdhoego-4.webp",
+        "thumbs/aixdhoego-5.webp",
+        "thumbs/aixdhoego-6.webp"
+      ],
+      "warnings": [],
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "RAI회고",
+      "source_name": "RAI회고.pdf",
+      "base": "raihoego",
+      "ext": "pdf",
+      "kind": "pdf",
+      "size": 31345437,
+      "sha256": "3b4bc58017560380dd4ec5e8487b1c0cd1e98affb2af084e7bdf0e261eaeed04",
+      "pair_sha256": null,
+      "original": "files/raihoego.pdf",
+      "pdf": "files/raihoego.pdf",
+      "web": "web/raihoego.pdf",
+      "web_size": 7465403,
+      "pages": 27,
+      "thumbs": [
+        "thumbs/raihoego-1.webp",
+        "thumbs/raihoego-2.webp",
+        "thumbs/raihoego-3.webp",
+        "thumbs/raihoego-4.webp",
+        "thumbs/raihoego-5.webp",
+        "thumbs/raihoego-6.webp"
+      ],
+      "warnings": [],
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "SDF회고",
+      "source_name": "SDF회고.pdf",
+      "base": "sdfhoego",
+      "ext": "pdf",
+      "kind": "pdf",
+      "size": 15273535,
+      "sha256": "b9b27cb621102c6102461928341ca221bf781a106b7a5fa05e48e92c1b6a47ed",
+      "pair_sha256": null,
+      "original": "files/sdfhoego.pdf",
+      "pdf": "files/sdfhoego.pdf",
+      "web": "web/sdfhoego.pdf",
+      "web_size": 4478896,
+      "pages": 17,
+      "thumbs": [
+        "thumbs/sdfhoego-1.webp",
+        "thumbs/sdfhoego-2.webp",
+        "thumbs/sdfhoego-3.webp",
+        "thumbs/sdfhoego-4.webp",
+        "thumbs/sdfhoego-5.webp",
+        "thumbs/sdfhoego-6.webp"
+      ],
+      "warnings": [],
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "UXDRM회고",
+      "source_name": "UXDRM회고.pdf",
+      "base": "uxdrmhoego",
+      "ext": "pdf",
+      "kind": "pdf",
+      "size": 17919323,
+      "sha256": "aead6fb70193f5be80c3f5f32193d7cd29a15c6929f467ea2fb5f9dda7903544",
+      "pair_sha256": null,
+      "original": "files/uxdrmhoego.pdf",
+      "pdf": "files/uxdrmhoego.pdf",
+      "web": "web/uxdrmhoego.pdf",
+      "web_size": 3118342,
+      "pages": 13,
+      "thumbs": [
+        "thumbs/uxdrmhoego-1.webp",
+        "thumbs/uxdrmhoego-2.webp",
+        "thumbs/uxdrmhoego-3.webp",
+        "thumbs/uxdrmhoego-4.webp",
+        "thumbs/uxdrmhoego-5.webp",
+        "thumbs/uxdrmhoego-6.webp"
+      ],
+      "warnings": [],
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "프로젝트 회고 및 이론서",
+      "source_name": "프로젝트 회고 및 이론서.pdf",
+      "base": "peurojekteu-hoego-mit-ironseo",
+      "ext": "pdf",
+      "kind": "pdf",
+      "size": 35289101,
+      "sha256": "4cc0813a0d942b1a8be6f038b21297804970d974b9242576ce805c9c90327df8",
+      "pair_sha256": null,
+      "original": "files/peurojekteu-hoego-mit-ironseo.pdf",
+      "pdf": "files/peurojekteu-hoego-mit-ironseo.pdf",
+      "web": "web/peurojekteu-hoego-mit-ironseo.pdf",
+      "web_size": 11011832,
+      "pages": 68,
+      "thumbs": [
+        "thumbs/peurojekteu-hoego-mit-ironseo-1.webp",
+        "thumbs/peurojekteu-hoego-mit-ironseo-2.webp",
+        "thumbs/peurojekteu-hoego-mit-ironseo-3.webp",
+        "thumbs/peurojekteu-hoego-mit-ironseo-4.webp",
+        "thumbs/peurojekteu-hoego-mit-ironseo-5.webp",
+        "thumbs/peurojekteu-hoego-mit-ironseo-6.webp"
+      ],
+      "warnings": [],
+      "updated": "2026-09-12"
+    }
+  ]
+}
