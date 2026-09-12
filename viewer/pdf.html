@@ -65,11 +65,13 @@ if (!f || !sameOrigin(f)) {
 async function open(url) {
   let pdf;
   try {
+    // 워커 안에서 받는 경로라 문서 기준 절대 주소로 넘긴다 (상대 경로면 pdfjs/pdfjs/… 로 어긋난다)
+    const abs = (p) => new URL(p, location.href).href;
     const task = pdfjsLib.getDocument({
       url,
-      cMapUrl: './pdfjs/cmaps/', cMapPacked: true,
-      standardFontDataUrl: './pdfjs/standard_fonts/',
-      wasmUrl: './pdfjs/wasm/', iccUrl: './pdfjs/iccs/',
+      cMapUrl: abs('./pdfjs/cmaps/'), cMapPacked: true,
+      standardFontDataUrl: abs('./pdfjs/standard_fonts/'),
+      wasmUrl: abs('./pdfjs/wasm/'), iccUrl: abs('./pdfjs/iccs/'),
     });
     task.onProgress = ({ loaded, total }) => {
       if (total) msg.textContent = `불러오는 중… ${Math.round(loaded / total * 100)}%`;
