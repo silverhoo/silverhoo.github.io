@@ -143,6 +143,8 @@ def main() -> None:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--no-build", action="store_true")
+    ap.add_argument("--only", action="append", metavar="패턴",
+                    help="이 파일명 패턴에 맞는 것만 처리하고 나머지 항목은 그대로 둔다 (긴 작업을 나눠 돌릴 때)")
     args = ap.parse_args()
 
     archive = load_archive()
@@ -185,6 +187,16 @@ def main() -> None:
     used_slugs: set[str] = set()
     new_items = []
     added, updated, unchanged = [], [], []
+
+    all_names = {nfc(s.name) for s, _ in plan}
+    if args.only:
+        plan = [t for t in plan if any(fnmatch.fnmatch(nfc(t[0].name).lower(), p.lower()) for p in args.only)]
+        chosen = {nfc(s.name) for s, _ in plan}
+        for it in old["items"]:            # 이번에 처리하지 않는 항목은 그대로 가져간다 (원본이 사라진 것은 제외)
+            if it["source_name"] not in chosen and it["source_name"] in all_names:
+                new_items.append(it)
+                used_slugs.add(it["base"])
+        log(f"  --only: {len(plan)}개만 처리, {len(new_items)}개는 유지")
 
     for src, pair_pdf in plan:
         name = nfc(src.name)
@@ -259,8 +271,8 @@ def main() -> None:
             log(f"     {item['pages']}쪽 · 썸네일 {len(item['thumbs'])}장")
         new_items.append(item)
 
-    # 사라진 원본 정리
-    removed = [n for n in old_by_name if n not in {nfc(s.name) for s, _ in plan}]
+    # 사라진 원본 정리 (--only 로 나눠 돌릴 때는 전체 목록 기준으로 판단)
+    removed = [n for n in old_by_name if n not in all_names]
     if not args.dry_run:
         for n in removed:
             it = old_by_name[n]
