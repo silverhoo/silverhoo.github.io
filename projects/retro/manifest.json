@@ -28,6 +28,31 @@
       "updated": "2026-09-12"
     },
     {
+      "name": "BTS",
+      "source_name": "BTS.pdf",
+      "base": "bts",
+      "ext": "pdf",
+      "kind": "pdf",
+      "size": 17893561,
+      "sha256": "1d422b70f7aad216461fc72ec141139e0d3664f9168f049953f5e6f8278c9f6a",
+      "pair_sha256": null,
+      "original": "files/bts.pdf",
+      "pdf": "files/bts.pdf",
+      "web": "web/bts.pdf",
+      "web_size": 4711531,
+      "pages": 20,
+      "thumbs": [
+        "thumbs/bts-1.webp",
+        "thumbs/bts-2.webp",
+        "thumbs/bts-3.webp",
+        "thumbs/bts-4.webp",
+        "thumbs/bts-5.webp",
+        "thumbs/bts-6.webp"
+      ],
+      "warnings": [],
+      "updated": "2026-09-12"
+    },
+    {
       "name": "RAI회고",
       "source_name": "RAI회고.pdf",
       "base": "raihoego",
