@@ -13,6 +13,15 @@ site:
   footer_right: "2026"
   lang: ko
 
+# ↓ 초안. 으누 확정 필요. (Harrison·Campo Woytuk 의 '근황 한 줄' 자리)
+news:
+  - date: "09.12"
+    text: 이 아카이브를 열었다. 회고 덱 다섯 벌이 처음 올라갔다.
+  - date: "09.11"
+    text: 창의성과 AI 원고가 열한 번째 판이 됐다.
+  - date: "09.06"
+    text: 다섯 프로젝트를 같은 기준으로 다시 본 종합 회고를 끝냈다.
+
 sections:
   - id: work
     title: 작업
