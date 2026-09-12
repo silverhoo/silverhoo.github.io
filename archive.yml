@@ -1,25 +1,74 @@
-# 공개 목록 — 저장소에 올라간다. 맥 폴더 경로는 여기에 적지 않는다 (sources.local.yml 에).
+# 아카이브 — 뼈대 1 (작업이 1급)
+# 홈은 작업 / 회고 / 소개 세 갈래. 각 항목은 덱 한 벌을 가리키고, 클릭하면 슬라이드 뷰어가 열린다.
+# base 는 projects/retro/manifest.json 의 base 값이다.
 site:
-  title: 아카이브
-  kicker: ARCHIVE
-  intro: 프로젝트 결과물을 한곳에 모아 둔다.
-  author: ""
-  description: 프로젝트 결과물 아카이브
-  footer: GitHub Pages
-  nav_right: PROJECTS
+  name: 김은후
+  nav: [작업, 회고, 소개]
+  kicker: 아카이브
+  # ↓ 초안. 확정 필요.
+  decl_muted_1: "디자인 프로젝트를 하고,"
+  decl_ink: "끝난 뒤에 그 절차를 다시 적는다."
+  sub: "UNIST · 서비스·경험 디자인"
+  footer_left: 아카이브
+  footer_right: "2026"
   lang: ko
 
+sections:
+  - id: work
+    title: 작업
+    lead: 학교와 팀에서 한 디자인 프로젝트. 각 항목에 걸린 파일은 그 프로젝트의 회고 덱이다.
+    entries:
+      - base: sdfhoego
+        title: UNIST 정신건강 향상을 위한 서비스 재디자인
+        kicker: 서비스 디자인
+        year: "2026"
+        meta: 팀 프로젝트
+        goal: 고위험군 학생이 UNIST 정신건강 서비스에서 제때 치료를 받지 못하는 구조적 문제를 서비스 디자인 관점에서 재구조화했다.
+        steps: 1차 리서치 · 2차 리서치 · 문제 정의 · 최종 솔루션
+      - base: raihoego
+        title: Nest Guide AI — 책임 있는 AI 재디자인
+        kicker: Responsible AI
+        year: "2026"
+        meta: 팀 프로젝트
+        goal: 육아 AI 서비스를, AI의 개입이 부모의 판단 주체성을 해치지 않는 방향으로 재디자인했다.
+        steps: 데스크 리서치 · 초기 디자인 · 유저스터디 · 최종 제안
+      - base: uxdrmhoego
+        title: Anker — 여행용 파워 키트의 새 제안
+        kicker: UX Design Research Method
+        year: "2026"
+        meta: 팀 프로젝트
+        goal: Anker 브랜드의 여행용 전원 키트에서 새로운 제안을 찾았다.
+        steps: 데스크 리서치 · 유저스터디 · 아이데이션 · 프로토타입 · 마무리
+      - base: aixdhoego
+        title: 상향 비교를 상향 동화로 — SNS 알고리즘과 UI 전략
+        kicker: AIXD
+        year: "2026"
+        meta: 팀 프로젝트
+        goal: SNS의 상향 비교에서 상향 대조가 나타나는 것을 막고 상향 동화로 이어지도록, 알고리즘과 UI 기반 전략을 탐색했다.
+        steps: 데스크 리서치 · 유저스터디 · 문제 정의 · 프로토타입 · 마무리
+
+  - id: retro
+    title: 회고
+    lead: 위 프로젝트들을 같은 기준으로 다시 보고, 내 프로세스를 처음부터 다시 적은 종합 회고.
+    entries:
+      - base: peurojekteu-hoego-mit-ironseo
+        title: 서비스·경험디자인 이론서
+        kicker: 학습 정리 · 프로젝트 분석 · 종합 회고
+        year: "2026.09"
+        meta: 개인
+        goal: 이론서 한 권을 다섯 단계로 정리했다. 각 단계 끝에서 내가 한 다섯 프로젝트를 같은 기준으로 다시 봤고, 마지막에 내 프로세스를 처음부터 다시 적었다.
+        steps: 발견하기 · 정의하기 · 개발하기 · 전달하기 · 종합 회고
+
+# ↓ 초안. 확정 필요.
+about:
+  - 서비스·경험 디자인을 공부하고 있다. 팀 프로젝트를 하고, 끝난 뒤에 그 프로젝트를 같은 기준으로 다시 본다.
+  - 다섯 프로젝트를 각각 회고한 뒤 서비스·경험디자인 이론서를 끝까지 읽었고, 그 둘을 겹쳐 내가 앞으로 밟을 절차를 열한 장으로 다시 적었다. 이 사이트에 있는 덱들이 그 기록이다.
+  - 지금은 창의성과 AI를 문헌으로 정리하고 있다. 정의의 자리와 해결의 자리를 나누는 일이고, 끝나면 여기에 올린다.
+  - email: icarus.korea@gmail.com
+
+# tools/sync.py 가 쓰는 최소 정보 — 파일을 어느 폴더에 넣을지만 정한다.
 projects:
   - slug: retro
-    title: 프로젝트 회고 및 이론서
-    status: 완료            # 진행 중 · 완료
-    visibility: public      # public · private (private 는 사이트에 나오지 않는다)
-    date: 2026-09-07
-    main: 프로젝트 회고 및 이론서.pdf
-    summary: 다섯 프로젝트(UX DRM · AIXD · BTS 울산컵 · 서디기 · RAI)를 각각 회고하고, 서비스·경험디자인 이론서를 읽은 뒤 내 프로세스를 처음부터 끝까지 다시 적었다.
-
-  - slug: creativity
-    title: 창의성의 두 자리
-    status: 진행 중
+    title: 덱 원본
     visibility: public
-    summary: AI 시대의 창의성과 모방의 가치를 문헌으로 정리하는 글. 원고와 발표 자료가 완성되면 올린다.
+    status: 완료
