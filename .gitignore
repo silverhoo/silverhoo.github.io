@@ -1,0 +1,8 @@
+# 맥 폴더 경로가 든 연결 목록 — 저장소에 올리지 않는다
+sources.local.yml
+*.local.yml
+!sources.local.yml.example
+
+.DS_Store
+tools/__pycache__/
+*.pyc

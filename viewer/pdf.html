@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF 보기</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  body { background: #F3F4F6; }
+  .bar {
+    position: sticky; top: 0; z-index: 10; background: #FFFFFF; border-bottom: 1px solid var(--rule);
+  }
+  .bar .in {
+    max-width: 1200px; margin: 0 auto; padding: 0 16px; height: 52px;
+    display: flex; align-items: center; gap: 16px; font-size: 13px;
+  }
+  .bar .back { font-weight: 700; letter-spacing: .08em; color: var(--faint); white-space: nowrap; }
+  .bar .back:hover { color: var(--ink); }
+  .bar .title { flex: 1; min-width: 0; font-weight: 700; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar .pages { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .bar button { font: inherit; font-weight: 700; color: var(--ink); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: 4px 10px; cursor: pointer; }
+  .bar button:hover { border-color: var(--ink); }
+  .bar .dl { font-weight: 700; color: var(--ink); border-bottom: 1px solid var(--ink); white-space: nowrap; }
+  .stage { max-width: 1200px; margin: 0 auto; padding: 16px; }
+  .page { position: relative; background: #FFFFFF; border: 1px solid var(--rule); margin: 0 0 12px; overflow: hidden; scroll-margin-top: 64px; }
+  .page canvas { display: block; width: 100%; height: auto; }
+  .page .n { position: absolute; right: 8px; bottom: 6px; font-size: 11px; color: var(--faint); background: rgba(255,255,255,.8); padding: 0 4px; }
+  .msg { padding: 48px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+  @media (max-width: 640px) { .bar .in { gap: 10px; } .bar .pages { font-size: 12px; } .stage { padding: 8px; } .page { margin-bottom: 8px; } }
+</style>
+</head>
+<body>
+<div class="bar"><div class="in">
+  <a class="back" id="back" href="../index.html">← 돌아가기</a>
+  <div class="title" id="title">PDF</div>
+  <span class="pages" id="pages"></span>
+  <button id="prev" title="이전 페이지 (←)">‹</button>
+  <button id="next" title="다음 페이지 (→)">›</button>
+  <a class="dl" id="dl" href="#" hidden download>원본</a>
+</div></div>
+<div class="stage" id="stage"><div class="msg" id="msg">불러오는 중…</div></div>
+
+<script type="module">
+import * as pdfjsLib from './pdfjs/pdf.min.mjs';
+pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs/pdf.worker.min.mjs';
+
+const q = new URLSearchParams(location.search);
+const f = q.get('f'), t = q.get('t'), o = q.get('o'), p = q.get('p');
+const $ = (id) => document.getElementById(id);
+const stage = $('stage'), msg = $('msg');
+
+if (t) { $('title').textContent = t; document.title = t + ' — PDF'; }
+if (p) { $('back').href = p; }
+if (o) { $('dl').href = o; $('dl').hidden = false; }
+
+function sameOrigin(u) { try { return new URL(u, location.href).origin === location.origin; } catch { return false; } }
+
+if (!f || !sameOrigin(f)) {
+  msg.textContent = '열 파일이 지정되지 않았다.';
+} else {
+  open(new URL(f, location.href).href);
+}
+
+async function open(url) {
+  let pdf;
+  try {
+    const task = pdfjsLib.getDocument({
+      url,
+      cMapUrl: './pdfjs/cmaps/', cMapPacked: true,
+      standardFontDataUrl: './pdfjs/standard_fonts/',
+      wasmUrl: './pdfjs/wasm/', iccUrl: './pdfjs/iccs/',
+    });
+    task.onProgress = ({ loaded, total }) => {
+      if (total) msg.textContent = `불러오는 중… ${Math.round(loaded / total * 100)}%`;
+    };
+    pdf = await task.promise;
+  } catch (e) {
+    msg.textContent = '파일을 열지 못했다: ' + (e && e.message ? e.message : e);
+    return;
+  }
+  msg.remove();
+  const total = pdf.numPages;
+  const first = await pdf.getPage(1);
+  const v1 = first.getViewport({ scale: 1 });
+  const ratio = v1.height / v1.width;
+
+  const holders = [];
+  for (let i = 1; i <= total; i++) {
+    const d = document.createElement('div');
+    d.className = 'page'; d.dataset.page = i; d.id = 'p' + i;
+    d.style.aspectRatio = `${v1.width} / ${v1.height}`;
+    d.innerHTML = `<span class="n">${i}</span>`;
+    stage.appendChild(d); holders.push(d);
+  }
+  $('pages').textContent = `1 / ${total}`;
+
+  const rendered = new Map();   // page -> width rendered at
+  const inflight = new Set();
+  async function render(i) {
+    const holder = holders[i - 1];
+    const cssW = holder.clientWidth;
+    if (rendered.get(i) === cssW || inflight.has(i)) return;
+    inflight.add(i);
+    try {
+      const page = await pdf.getPage(i);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const base = page.getViewport({ scale: 1 });
+      const vp = page.getViewport({ scale: cssW * dpr / base.width });
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.floor(vp.width); canvas.height = Math.floor(vp.height);
+      await page.render({ canvasContext: canvas.getContext('2d', { alpha: false }), viewport: vp }).promise;
+      holder.querySelector('canvas')?.remove();
+      holder.insertBefore(canvas, holder.firstChild);
+      rendered.set(i, cssW);
+    } catch (e) {
+      console.warn('render fail', i, e);
+    } finally {
+      inflight.delete(i);
+    }
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) render(+en.target.dataset.page);
+  }, { rootMargin: '150% 0px' });
+  holders.forEach(h => io.observe(h));
+
+  // 현재 페이지 표시 — 모든 페이지의 최근 노출 비율을 기억해 두고 그중 최대를 고른다
+  let current = 1;
+  const ratios = new Map();
+  const vis = new IntersectionObserver((entries) => {
+    for (const en of entries) ratios.set(+en.target.dataset.page, en.isIntersecting ? en.intersectionRatio : 0);
+    let best = 0, bestR = -1;
+    for (const [k, r] of ratios) if (r > bestR) { bestR = r; best = k; }
+    if (best) { current = best; $('pages').textContent = `${current} / ${total}`; }
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  holders.forEach(h => vis.observe(h));
+
+  function go(i) {
+    i = Math.max(1, Math.min(total, i));
+    holders[i - 1].scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+  $('prev').onclick = () => go(current - 1);
+  $('next').onclick = () => go(current + 1);
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Home') go(1);
+    if (e.key === 'End') go(total);
+  });
+
+  let timer;
+  window.addEventListener('resize', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { rendered.clear(); holders.forEach((h, k) => { if (h.getBoundingClientRect().bottom > -200 && h.getBoundingClientRect().top < innerHeight * 2) render(k + 1); }); }, 200);
+  });
+
+  if (location.hash.startsWith('#page=')) go(+location.hash.slice(6) || 1);
+}
+</script>
+</body>
+</html>

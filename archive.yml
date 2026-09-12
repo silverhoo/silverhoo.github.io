@@ -1,0 +1,25 @@
+# 공개 목록 — 저장소에 올라간다. 맥 폴더 경로는 여기에 적지 않는다 (sources.local.yml 에).
+site:
+  title: 아카이브
+  kicker: ARCHIVE
+  intro: 프로젝트 결과물을 한곳에 모아 둔다.
+  author: ""
+  description: 프로젝트 결과물 아카이브
+  footer: GitHub Pages
+  nav_right: PROJECTS
+  lang: ko
+
+projects:
+  - slug: retro
+    title: 프로젝트 회고 및 이론서
+    status: 완료            # 진행 중 · 완료
+    visibility: public      # public · private (private 는 사이트에 나오지 않는다)
+    date: 2026-09-07
+    main: 프로젝트 회고 및 이론서.pdf
+    summary: 다섯 프로젝트(UX DRM · AIXD · BTS 울산컵 · 서디기 · RAI)를 각각 회고하고, 서비스·경험디자인 이론서를 읽은 뒤 내 프로세스를 처음부터 끝까지 다시 적었다.
+
+  - slug: creativity
+    title: 창의성의 두 자리
+    status: 진행 중
+    visibility: public
+    summary: AI 시대의 창의성과 모방의 가치를 문헌으로 정리하는 글. 원고와 발표 자료가 완성되면 올린다.
