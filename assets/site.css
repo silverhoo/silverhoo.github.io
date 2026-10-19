@@ -127,6 +127,27 @@ img{max-width:100%; display:block}
 .about .c a{color:var(--ink); border-bottom:1px solid var(--rule)}
 .about .c a:hover{border-bottom-color:var(--ink)}
 
+/* ─── 관심사 ─── 한 문장 → 의미로 묶은 영역(두 단) → 영역 사이를 잇는 것. 선과 글만으로, 덱과 같은 회색 세 단계 */
+.istate{margin:6px 0 30px; font-size:18px; font-weight:500; line-height:1.85; letter-spacing:-.01em; max-width:40em}
+.igroups{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 44px;
+  border-top:1px solid var(--rule); padding-top:22px}
+.ig h3{margin:0 0 12px; font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--muted)}
+.ig ul{list-style:none; margin:0 0 18px; padding:0}
+.ig li{padding:0 0 16px}
+.ig .in{margin:0 0 3px; font-size:15.5px; font-weight:700; line-height:1.55; letter-spacing:-.01em}
+.ig .it{margin:0; font-size:13.5px; line-height:1.78; color:var(--muted)}
+.ig .iterm{margin:5px 0 0; font-family:var(--mono); font-size:11px; letter-spacing:.02em; color:var(--faint)}
+.ilinks{margin-top:8px; border-top:1px solid var(--rule); padding-top:20px}
+.ilinks .lab{margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--muted)}
+.ilinks ul{list-style:none; margin:0; padding:0}
+.ilinks li{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:2px 32px;
+  padding:13px 0; border-top:1px solid var(--hair)}
+.ilinks li:first-child{border-top:0}
+.ilinks .il{font-size:14.5px; font-weight:700; line-height:1.65}
+.ilinks .iw{font-size:13.5px; line-height:1.75; color:var(--muted)}
+.ilinks .iw a{border-bottom:1px solid var(--rule)}
+.ilinks .iw a:hover{color:var(--ink); border-bottom-color:var(--ink)}
+
 .foot{display:flex; justify-content:space-between; gap:16px; margin-top:80px;
   padding:16px 0 56px; border-top:1px solid var(--rule);
   font-size:11.5px; letter-spacing:.08em; color:var(--faint)}
@@ -156,4 +177,7 @@ img{max-width:100%; display:block}
   .links{gap:0 16px}
   .links .d{margin-left:0; flex-basis:100%; padding-top:6px}
   .ticks{opacity:1}
+  .istate{font-size:17px}
+  .igroups{grid-template-columns:1fr}
+  .ilinks li{grid-template-columns:1fr}
 }

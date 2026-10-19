@@ -112,6 +112,7 @@ def shot_html(href: str, thumbs: list) -> str:
 def main() -> None:
     cfg = yaml.safe_load((ROOT / "archive.yml").read_text(encoding="utf-8"))
     site, sections, about = cfg["site"], cfg["sections"], cfg.get("about", [])
+    interests = cfg.get("interests")
     news = cfg.get("news", [])
     man = json.loads((DECKS / "manifest.json").read_text(encoding="utf-8"))
     by_base = {it["base"]: it for it in man["items"]}
@@ -154,12 +155,48 @@ def main() -> None:
       </ul>
     </section>""")
 
+    # 관심사(interests)가 있으면 내비 첫 칸이 관심사다. nav 의 순서와 아래 id 의 순서를 맞춘다.
+    ids = ["interests", "work", "retro", "about"] if interests else ["work", "retro", "about"]
+    nav_pairs = list(zip(ids, site["nav"]))
+    titles = dict(nav_pairs)
     nav = "".join(
         f'<li><a href="#{sid}">{esc(t)}'
         + (f'<span class="n">{counts[sid]}</span>' if sid in counts else "")
         + "</a></li>"
-        for sid, t in [("work", site["nav"][0]), ("retro", site["nav"][1]), ("about", site["nav"][2])]
+        for sid, t in nav_pairs
     )
+
+    # 관심사 섹션 — 관심사 한 문장, 의미로 묶은 영역, 영역 사이를 잇는 연결과 그 연결에서 한 활동.
+    # 영역의 term 은 그 영역에 붙는 기존 문헌 용어다(조어를 쓰지 않는다).
+    interests_html = ""
+    if interests:
+        groups = []
+        for g in interests.get("groups", []):
+            areas = []
+            for a in g.get("areas", []):
+                term = f'\n            <p class="iterm">{esc(a["term"])}</p>' if a.get("term") else ""
+                areas.append(f'          <li>\n            <p class="in">{esc(a["name"])}</p>\n'
+                             f'            <p class="it">{esc(a["text"])}</p>{term}\n          </li>')
+            groups.append(f'      <div class="ig">\n        <h3>{esc(g["title"])}</h3>\n        <ul>\n'
+                          + "\n".join(areas) + '\n        </ul>\n      </div>')
+        links = []
+        for l in interests.get("links", []):
+            work = esc(l["work"])
+            if l.get("href"):
+                work = f'<a href="{esc(l["href"])}">{work}</a>'
+            links.append(f'        <li><span class="il">{esc(l["label"])}</span><span class="iw">{work}</span></li>')
+        links_html = ""
+        if links:
+            links_html = ('\n      <div class="ilinks">\n        <p class="lab">영역 사이를 잇는 것과 그 연결에서 한 일</p>\n'
+                          '        <ul>\n' + "\n".join(links) + '\n        </ul>\n      </div>')
+        interests_html = f"""    <section class="sec interests" id="interests">
+      <div class="sechead"><h2>{esc(titles['interests'])}</h2><span class="rule"></span></div>
+      <p class="istate">{esc(interests['lead'])}</p>
+      <div class="igroups">
+{chr(10).join(groups)}
+      </div>{links_html}
+    </section>
+"""
 
     news_html = ""
     if news:
@@ -199,10 +236,10 @@ def main() -> None:
     </header>
 
     <main class="main">
-{chr(10).join(blocks)}
+{interests_html}{chr(10).join(blocks)}
 
     <section class="sec about" id="about">
-      <div class="sechead"><h2>{esc(site['nav'][2])}</h2><span class="rule"></span></div>
+      <div class="sechead"><h2>{esc(titles['about'])}</h2><span class="rule"></span></div>
 {chr(10).join(abt)}
     </section>
 
@@ -217,7 +254,7 @@ def main() -> None:
 </html>
 """
     (ROOT / "index.html").write_text(page, encoding="utf-8")
-    print(f"build: index.html — {len(sections) + 1}개 섹션 · {sum(counts.values())}개 항목")
+    print(f"build: index.html — {len(sections) + 1 + (1 if interests else 0)}개 섹션 · {sum(counts.values())}개 항목")
 
 
 if __name__ == "__main__":
